@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impuls∞ps – Soluções Digitais</title>
+  <meta name="description" content="Damos o impulso que o seu negócio precisa. Websites, gestão de redes sociais e presença online com a equipa Impuls∞ps.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            blueDeep: '#1e40af',
+            blueVibrant: '#3b82f6',
+            blueBright: '#06b6d4',
+            grayDark: '#1e293b',
+            grayCharcoal: '#334155',
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <style>
+    body { font-family: 'Outfit', sans-serif; }
+    .gradient-text { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #06b6d4 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+    .gradient-bg { background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #06b6d4 100%); }
+    .gradient-border { position: relative; background: white; }
+    .gradient-border::before { content: ''; position: absolute; inset: 0; padding: 2px; border-radius: inherit; background: linear-gradient(135deg, #1e40af, #06b6d4); -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0); -webkit-mask-composite: xor; mask-composite: exclude; }
+    .card-hover { transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+    .card-hover:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(30, 64, 175, 0.15); }
+    .mesh-bg { background-image: radial-gradient(at 40% 20%, rgba(59, 130, 246, 0.08) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(6, 182, 212, 0.06) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(30, 64, 175, 0.05) 0px, transparent 50%); }
+    .input-focus:focus { box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+  </style>
+</head>
+<body class="bg-white text-[#1e293b] antialiased overflow-x-hidden">
+  <!-- Header -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-100">
+    <nav class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+      <a href="#" class="text-xl font-bold tracking-tight">
+        Impuls<span class="gradient-text">∞</span>ps
+      </a>
+      <div class="hidden md:flex items-center gap-8">
+        <a href="#problemas" class="text-[#334155] hover:text-[#1e40af] transition-colors text-sm font-medium">Soluções</a>
+        <a href="#precos" class="text-[#334155] hover:text-[#1e40af] transition-colors text-sm font-medium">Packs</a>
+        <a href="#contacto" class="text-[#334155] hover:text-[#1e40af] transition-colors text-sm font-medium">Contacto</a>
+        <a href="#contacto" class="gradient-bg text-white font-semibold px-5 py-2.5 rounded-full text-sm hover:opacity-95 transition-opacity shadow-lg shadow-blue-500/25">
+          Falar Connosco
+        </a>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="min-h-screen flex items-center relative pt-24 pb-20 px-6 mesh-bg">
+    <div class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="absolute top-1/4 -left-20 w-72 h-72 bg-[#3b82f6]/10 rounded-full blur-3xl"></div>
+      <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-[#06b6d4]/10 rounded-full blur-3xl"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-[#1e40af]/5 rounded-full"></div>
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-[#06b6d4]/5 rounded-full"></div>
+    </div>
+    <div class="max-w-6xl mx-auto relative z-10">
+      <div class="grid lg:grid-cols-2 gap-16 items-center">
+        <div data-aos="fade-right">
+          <span class="inline-block px-4 py-1.5 rounded-full bg-[#1e40af]/10 text-[#1e40af] text-sm font-medium mb-6">Equipa Impuls∞ps</span>
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] mb-6 text-[#1e293b]">
+            Damos o Impulso <span class="gradient-text">∞</span> que o seu negócio precisa
+          </h1>
+          <p class="text-lg text-[#334155] mb-10 max-w-xl leading-relaxed">
+            Websites profissionais, criação de conteúdo e gestão de presença online. O seu negócio merece crescer com a equipa Impuls∞ps.
+          </p>
+          <div class="flex flex-wrap gap-4">
+            <a href="#contacto" class="gradient-bg text-white font-semibold px-8 py-4 rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-xl shadow-blue-500/30 flex items-center gap-2">
+              Quero Impulsionar o meu Negócio
+              <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+            <a href="#precos" class="border-2 border-[#1e293b] text-[#1e293b] font-semibold px-8 py-4 rounded-xl hover:bg-[#1e293b] hover:text-white transition-all duration-300">
+              Ver Packs
+            </a>
+          </div>
+        </div>
+        <div class="relative hidden lg:block" data-aos="fade-left">
+          <div class="relative">
+            <div class="aspect-square max-w-md mx-auto rounded-3xl gradient-bg p-1 shadow-2xl shadow-blue-500/20">
+              <div class="w-full h-full bg-white rounded-[22px] p-8 flex flex-col justify-center">
+                <div class="space-y-6">
+                  <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl gradient-bg flex items-center justify-center">
+                      <i data-lucide="sparkles" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <div>
+                      <p class="font-bold text-[#1e293b]">Equipa a trabalhar por si</p>
+                      <p class="text-sm text-[#334155]">Conteúdos otimizados 24/7</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-[#1e293b] flex items-center justify-center">
+                      <i data-lucide="globe" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <div>
+                      <p class="font-bold text-[#1e293b]">Presença online forte</p>
+                      <p class="text-sm text-[#334155]">Website + Redes Sociais</p>
+                    </div>
+                  </div>
+                  <div class="flex items-center gap-4">
+                    <div class="w-14 h-14 rounded-2xl bg-[#1e293b] flex items-center justify-center">
+                      <i data-lucide="trending-up" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <div>
+                      <p class="font-bold text-[#1e293b]">Mais clientes</p>
+                      <p class="text-sm text-[#334155]">Estratégias que convertem</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="py-16 px-6 bg-[#1e293b]">
+    <div class="max-w-6xl mx-auto">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div data-aos="fade-up" data-aos-delay="0">
+          <p class="text-3xl md:text-4xl font-extrabold gradient-text mb-1">+50</p>
+          <p class="text-slate-400 text-sm font-medium">Negócios impulsionados</p>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="100">
+          <p class="text-3xl md:text-4xl font-extrabold text-white mb-1">100%</p>
+          <p class="text-slate-400 text-sm font-medium">Foco em resultados</p>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="200">
+          <p class="text-3xl md:text-4xl font-extrabold text-white mb-1">Equipa</p>
+          <p class="text-slate-400 text-sm font-medium">Especialistas dedicados</p>
+        </div>
+        <div data-aos="fade-up" data-aos-delay="300">
+          <p class="text-3xl md:text-4xl font-extrabold gradient-text mb-1">∞</p>
+          <p class="text-slate-400 text-sm font-medium">Possibilidades</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Problemas que Resolvemos -->
+  <section id="problemas" class="py-24 px-6 mesh-bg">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <span class="text-[#1e40af] font-semibold text-sm uppercase tracking-wider">O que fazemos</span>
+        <h2 class="text-3xl md:text-5xl font-extrabold text-[#1e293b] mt-2 mb-4">
+          Problemas que Resolvemos
+        </h2>
+        <p class="text-[#334155] text-lg max-w-2xl mx-auto">
+          Identificamos os bloqueios que impedem o seu negócio de crescer online e resolvemo-los com soluções à medida.
+        </p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100 card-hover" data-aos="fade-up" data-aos-delay="100">
+          <div class="w-16 h-16 rounded-2xl gradient-bg flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30">
+            <i data-lucide="globe" class="w-8 h-8 text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold text-[#1e293b] mb-3">Sites Lentos ou Inexistentes</h3>
+          <p class="text-[#334155] leading-relaxed mb-6">
+            Criamos websites profissionais, rápidos e otimizados para conversão e SEO. O seu negócio merece uma vitrine digital à altura.
+          </p>
+          <a href="#contacto" class="inline-flex items-center gap-2 text-[#1e40af] font-semibold hover:gap-3 transition-all">
+            Saber mais <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+        <div class="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100 card-hover" data-aos="fade-up" data-aos-delay="200">
+          <div class="w-16 h-16 rounded-2xl gradient-bg flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30">
+            <i data-lucide="share-2" class="w-8 h-8 text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold text-[#1e293b] mb-3">Redes Sociais Abandonadas</h3>
+          <p class="text-[#334155] leading-relaxed mb-6">
+            Gestão ativa e criação de conteúdo regular. Mantemos a sua presença online viva e a atrair clientes.
+          </p>
+          <a href="#contacto" class="inline-flex items-center gap-2 text-[#1e40af] font-semibold hover:gap-3 transition-all">
+            Saber mais <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+        <div class="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100 card-hover" data-aos="fade-up" data-aos-delay="300">
+          <div class="w-16 h-16 rounded-2xl gradient-bg flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30">
+            <i data-lucide="users" class="w-8 h-8 text-white"></i>
+          </div>
+          <h3 class="text-xl font-bold text-[#1e293b] mb-3">Falta de Clientes Online</h3>
+          <p class="text-[#334155] leading-relaxed mb-6">
+            Estratégias de captação e conversão para trazer mais clientes ao seu negócio. Crescimento sustentado e mensurável.
+          </p>
+          <a href="#contacto" class="inline-flex items-center gap-2 text-[#1e40af] font-semibold hover:gap-3 transition-all">
+            Saber mais <i data-lucide="arrow-right" class="w-4 h-4"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Preços -->
+  <section id="precos" class="py-24 px-6 bg-slate-50">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <span class="text-[#1e40af] font-semibold text-sm uppercase tracking-wider">Investimento</span>
+        <h2 class="text-3xl md:text-5xl font-extrabold text-[#1e293b] mt-2 mb-4">
+          Packs Disponíveis
+        </h2>
+        <p class="text-[#334155] text-lg max-w-2xl mx-auto">
+          Escolha o pack que melhor se adapta à fase do seu negócio. Sem surpresas, com resultados claros.
+        </p>
+      </div>
+      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div class="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-200 card-hover" data-aos="fade-up" data-aos-delay="100">
+          <div class="flex items-center gap-4 mb-6">
+            <div class="w-14 h-14 rounded-2xl bg-[#1e293b] flex items-center justify-center">
+              <i data-lucide="rocket" class="w-7 h-7 text-white"></i>
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold text-[#1e293b]">Pack Arranque</h3>
+              <p class="text-[#334155] text-sm">Ideal para começar</p>
+            </div>
+          </div>
+          <ul class="space-y-4 text-[#334155] mb-8">
+            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Website Profissional</li>
+            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Setup Google Maps</li>
+            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Design responsivo</li>
+            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Otimização SEO básica</li>
+          </ul>
+          <a href="#contacto" class="block w-full text-center bg-[#1e293b] hover:bg-[#334155] text-white font-semibold py-4 rounded-xl transition-colors">
+            Pedir Orçamento
+          </a>
+        </div>
+        <div class="bg-white rounded-3xl p-8 shadow-2xl shadow-blue-500/20 border-2 border-[#3b82f6] relative card-hover" data-aos="fade-up" data-aos-delay="200">
+          <span class="absolute -top-4 left-1/2 -translate-x-1/2 gradient-bg text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">Recomendado</span>
+          <div class="flex items-center gap-4 mb-6 mt-2">
+            <div class="w-14 h-14 rounded-2xl gradient-bg flex items-center justify-center shadow-lg shadow-blue-500/30">
+              <i data-lucide="infinity" class="w-7 h-7 text-white"></i>
+            </div>
+            <div>
+              <h3 class="text-2xl font-bold text-[#1e293b]">Pack Infinito</h3>
+              <p class="text-[#334155] text-sm">Mensal · Crescimento contínuo</p>
+            </div>
+          </div>
+          <ul class="space-y-4 text-[#334155] mb-8">
+            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Tudo do Pack Arranque</li>
+            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Gestão de Conteúdos profissional</li>
+            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Atualizações constantes</li>
+            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Suporte prioritário</li>
+          </ul>
+          <a href="#contacto" class="block w-full text-center gradient-bg text-white font-semibold py-4 rounded-xl hover:opacity-95 transition-opacity shadow-lg shadow-blue-500/30">
+            Quero Impulsionar
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contacto" class="py-24 px-6 mesh-bg">
+    <div class="max-w-4xl mx-auto">
+      <div class="text-center mb-12" data-aos="fade-up">
+        <span class="text-[#1e40af] font-semibold text-sm uppercase tracking-wider">Vamos conversar</span>
+        <h2 class="text-3xl md:text-5xl font-extrabold text-[#1e293b] mt-2 mb-4">
+          Fale Connosco
+        </h2>
+        <p class="text-[#334155] text-lg">
+          Preencha o formulário e responderemos em breve. Sem compromisso.
+        </p>
+      </div>
+      <div class="bg-white rounded-3xl shadow-2xl shadow-slate-200/80 border border-slate-100 p-8 md:p-12" data-aos="fade-up">
+        <form action="https://formspree.io/f/mdalwwpj" method="POST" class="space-y-6">
+          <input type="hidden" name="_subject" value="Novo contacto - Impuls∞ps">
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <label for="name" class="block text-sm font-semibold text-[#1e293b] mb-2">Nome</label>
+              <input type="text" id="name" name="name" required
+                class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[#1e293b] placeholder-slate-400 focus:outline-none input-focus border-[#3b82f6]/30 focus:border-[#3b82f6] transition-all"
+                placeholder="O seu nome">
+            </div>
+            <div>
+              <label for="email" class="block text-sm font-semibold text-[#1e293b] mb-2">Email</label>
+              <input type="email" id="email" name="email" required
+                class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[#1e293b] placeholder-slate-400 focus:outline-none input-focus border-[#3b82f6]/30 focus:border-[#3b82f6] transition-all"
+                placeholder="o@seuemail.com">
+            </div>
+          </div>
+          <div>
+            <label for="phone" class="block text-sm font-semibold text-[#1e293b] mb-2">Telefone</label>
+            <input type="tel" id="phone" name="phone"
+              class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[#1e293b] placeholder-slate-400 focus:outline-none input-focus border-[#3b82f6]/30 focus:border-[#3b82f6] transition-all"
+              placeholder="+351 912 345 678">
+          </div>
+          <div>
+            <label for="message" class="block text-sm font-semibold text-[#1e293b] mb-2">Mensagem</label>
+            <textarea id="message" name="message" rows="5" required
+              class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[#1e293b] placeholder-slate-400 focus:outline-none input-focus border-[#3b82f6]/30 focus:border-[#3b82f6] transition-all resize-none"
+              placeholder="Conte-nos sobre o seu negócio e o que precisa..."></textarea>
+          </div>
+          <button type="submit"
+            class="w-full gradient-bg text-white font-semibold py-4 rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-xl shadow-blue-500/30 flex items-center justify-center gap-2">
+            Enviar Mensagem
+            <i data-lucide="send" class="w-5 h-5"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="py-16 px-6 bg-[#1e293b]">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center">
+        <p class="font-bold text-xl text-white mb-1">Impuls<span class="gradient-text">∞</span>ps</p>
+        <p class="text-slate-400 text-sm">Soluções digitais para o seu negócio</p>
+      </div>
+      <p class="text-center text-slate-500 text-sm mt-12">© 2025 Impuls∞ps. Todos os direitos reservados.</p>
+    </div>
+  </footer>
+
+  <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+  <script>
+    AOS.init({ duration: 600, offset: 50, once: true });
+    lucide.createIcons();
+  </script>
+</body>
+</html>
