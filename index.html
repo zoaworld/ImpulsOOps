@@ -26,6 +26,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
+      darkMode: 'class',
       theme: {
         extend: {
           colors: {
@@ -52,38 +53,71 @@
     .card-hover:hover { transform: translateY(-8px); box-shadow: 0 25px 50px -12px rgba(30, 64, 175, 0.15); }
     .mesh-bg { background-image: radial-gradient(at 40% 20%, rgba(59, 130, 246, 0.08) 0px, transparent 50%), radial-gradient(at 80% 0%, rgba(6, 182, 212, 0.06) 0px, transparent 50%), radial-gradient(at 0% 50%, rgba(30, 64, 175, 0.05) 0px, transparent 50%); }
     .input-focus:focus { box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); }
+    .input-error { border-color: #ef4444 !important; box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2); }
     html { scroll-behavior: smooth; }
     .mobile-menu { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
     .mobile-menu.open { max-height: 20rem; }
     .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+    /* Scroll progress */
+    .scroll-progress { height: 3px; background: linear-gradient(90deg, #1e40af, #06b6d4); transform-origin: left; }
+    /* Testimonials carousel */
+    .testimonials-track { display: flex; transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    .testimonial-card { flex: 0 0 100%; min-width: 100%; }
+    @media (min-width: 768px) { .testimonial-card { flex: 0 0 50%; min-width: 50%; } }
+    @media (min-width: 1024px) { .testimonial-card { flex: 0 0 33.333%; min-width: 33.333%; } }
+    /* FAQ accordion */
+    .faq-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+    .faq-item.open .faq-content { max-height: 300px; }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    /* Quiz transitions */
+    .quiz-step { transition: opacity 0.3s ease, transform 0.3s ease; }
   </style>
 </head>
-<body class="bg-white text-[#1e293b] antialiased overflow-x-hidden">
+<body class="bg-white dark:bg-slate-900 text-[#1e293b] dark:text-slate-100 antialiased overflow-x-hidden transition-colors duration-300">
+  <!-- Scroll progress indicator -->
+  <div class="fixed top-0 left-0 right-0 z-[60] pointer-events-none">
+    <div id="scroll-progress" class="scroll-progress" style="width: 0%"></div>
+  </div>
   <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-6 focus:z-[100] focus:px-4 focus:py-2 focus:bg-[#1e40af] focus:text-white focus:rounded-lg">Saltar para o conteúdo</a>
   <!-- Header -->
-  <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-xl border-b border-slate-100">
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-100 dark:border-slate-800">
     <nav class="max-w-7xl mx-auto px-6 py-4">
       <div class="flex items-center justify-between">
-        <a href="#" class="text-xl font-bold tracking-tight">
+        <a href="#" class="text-xl font-bold tracking-tight text-[#1e293b] dark:text-white">
           Impuls<span class="gradient-text">∞</span>ps
         </a>
         <div class="hidden md:flex items-center gap-8">
-          <a href="#problemas" class="text-[#334155] hover:text-[#1e40af] transition-colors text-sm font-medium">Soluções</a>
-          <a href="#precos" class="text-[#334155] hover:text-[#1e40af] transition-colors text-sm font-medium">Packs</a>
-          <a href="#contacto" class="text-[#334155] hover:text-[#1e40af] transition-colors text-sm font-medium">Contacto</a>
+          <a href="#quiz" class="text-[#334155] dark:text-slate-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors text-sm font-medium">Quiz</a>
+          <a href="#problemas" class="text-[#334155] dark:text-slate-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors text-sm font-medium">Soluções</a>
+          <a href="#testemunhos" class="text-[#334155] dark:text-slate-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors text-sm font-medium">Testemunhos</a>
+          <a href="#precos" class="text-[#334155] dark:text-slate-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors text-sm font-medium">Packs</a>
+          <a href="#faq" class="text-[#334155] dark:text-slate-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors text-sm font-medium">FAQ</a>
+          <a href="#contacto" class="text-[#334155] dark:text-slate-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors text-sm font-medium">Contacto</a>
+          <button type="button" id="dark-toggle" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Alternar tema claro/escuro">
+            <i data-lucide="sun" class="w-5 h-5 text-[#334155] dark:text-slate-400 dark:hidden"></i>
+            <i data-lucide="moon" class="w-5 h-5 text-slate-400 hidden dark:block"></i>
+          </button>
           <a href="#contacto" class="gradient-bg text-white font-semibold px-5 py-2.5 rounded-full text-sm hover:opacity-95 transition-opacity shadow-lg shadow-blue-500/25">
             Falar Connosco
           </a>
         </div>
-        <button type="button" id="menu-toggle" class="md:hidden p-2 rounded-lg hover:bg-slate-100 transition-colors" aria-label="Abrir menu">
+        <div class="flex items-center gap-2 md:hidden">
+          <button type="button" id="dark-toggle-mobile" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Alternar tema">
+            <i data-lucide="sun" class="w-5 h-5 text-[#334155] dark:text-slate-400 dark:hidden"></i>
+            <i data-lucide="moon" class="w-5 h-5 text-slate-400 hidden dark:block"></i>
+          </button>
+          <button type="button" id="menu-toggle" class="p-2 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors" aria-label="Abrir menu">
           <i data-lucide="menu" class="w-6 h-6 text-[#1e293b]"></i>
         </button>
       </div>
       <div id="mobile-menu" class="mobile-menu md:hidden">
         <div class="pt-4 pb-2 flex flex-col gap-2">
-          <a href="#problemas" class="nav-link py-2 text-[#334155] hover:text-[#1e40af] font-medium">Soluções</a>
-          <a href="#precos" class="nav-link py-2 text-[#334155] hover:text-[#1e40af] font-medium">Packs</a>
-          <a href="#contacto" class="nav-link py-2 text-[#334155] hover:text-[#1e40af] font-medium">Contacto</a>
+          <a href="#quiz" class="nav-link py-2 text-[#334155] dark:text-slate-400 hover:text-[#1e40af] font-medium">Quiz</a>
+          <a href="#problemas" class="nav-link py-2 text-[#334155] dark:text-slate-400 hover:text-[#1e40af] font-medium">Soluções</a>
+          <a href="#testemunhos" class="nav-link py-2 text-[#334155] dark:text-slate-400 hover:text-[#1e40af] font-medium">Testemunhos</a>
+          <a href="#precos" class="nav-link py-2 text-[#334155] dark:text-slate-400 hover:text-[#1e40af] font-medium">Packs</a>
+          <a href="#faq" class="nav-link py-2 text-[#334155] dark:text-slate-400 hover:text-[#1e40af] font-medium">FAQ</a>
+          <a href="#contacto" class="nav-link py-2 text-[#334155] dark:text-slate-400 hover:text-[#1e40af] font-medium">Contacto</a>
           <a href="#contacto" class="nav-link gradient-bg text-white font-semibold px-5 py-3 rounded-full text-center mt-2">
             Falar Connosco
           </a>
@@ -94,21 +128,21 @@
 
   <!-- Hero -->
   <main id="main">
-  <section class="min-h-screen flex items-center relative pt-24 pb-20 px-6 mesh-bg">
-    <div class="absolute inset-0 overflow-hidden pointer-events-none">
-      <div class="absolute top-1/4 -left-20 w-72 h-72 bg-[#3b82f6]/10 rounded-full blur-3xl"></div>
-      <div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-[#06b6d4]/10 rounded-full blur-3xl"></div>
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-[#1e40af]/5 rounded-full"></div>
-      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-[#06b6d4]/5 rounded-full"></div>
+  <section id="hero" class="min-h-screen flex items-center relative pt-24 pb-20 px-6 mesh-bg dark:bg-slate-900 overflow-hidden">
+    <div id="hero-parallax" class="absolute inset-0 overflow-hidden pointer-events-none">
+      <div class="parallax-layer absolute top-1/4 -left-20 w-72 h-72 bg-[#3b82f6]/10 rounded-full blur-3xl" data-speed="0.15"></div>
+      <div class="parallax-layer absolute bottom-1/4 -right-20 w-96 h-96 bg-[#06b6d4]/10 rounded-full blur-3xl" data-speed="0.12"></div>
+      <div class="parallax-layer absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] border border-[#1e40af]/5 rounded-full" data-speed="0.08"></div>
+      <div class="parallax-layer absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] border border-[#06b6d4]/5 rounded-full" data-speed="0.12"></div>
     </div>
     <div class="max-w-6xl mx-auto relative z-10">
       <div class="grid lg:grid-cols-2 gap-16 items-center">
         <div data-aos="fade-right">
           <span class="inline-block px-4 py-1.5 rounded-full bg-[#1e40af]/10 text-[#1e40af] text-sm font-medium mb-6">Equipa Impuls∞ps</span>
-          <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] mb-6 text-[#1e293b]">
+          <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] mb-6 text-[#1e293b] dark:text-white">
             Damos o Impulso <span class="gradient-text">∞</span> que o seu negócio precisa
           </h1>
-          <p class="text-lg text-[#334155] mb-10 max-w-xl leading-relaxed">
+          <p class="text-lg text-[#334155] dark:text-slate-400 mb-10 max-w-xl leading-relaxed">
             Websites profissionais, criação de conteúdo e gestão de presença online. O seu negócio merece crescer com a equipa Impuls∞ps.
           </p>
           <div class="flex flex-wrap gap-4">
@@ -116,7 +150,7 @@
               Quero Impulsionar o meu Negócio
               <i data-lucide="arrow-right" class="w-5 h-5"></i>
             </a>
-            <a href="#precos" class="border-2 border-[#1e293b] text-[#1e293b] font-semibold px-8 py-4 rounded-xl hover:bg-[#1e293b] hover:text-white transition-all duration-300">
+            <a href="#precos" class="border-2 border-[#1e293b] dark:border-slate-400 text-[#1e293b] dark:text-slate-300 font-semibold px-8 py-4 rounded-xl hover:bg-[#1e293b] dark:hover:bg-slate-700 hover:text-white transition-all duration-300">
               Ver Packs
             </a>
           </div>
@@ -124,7 +158,7 @@
         <div class="relative hidden lg:block" data-aos="fade-left">
           <div class="relative">
             <div class="aspect-square max-w-md mx-auto rounded-3xl gradient-bg p-1 shadow-2xl shadow-blue-500/20">
-              <div class="w-full h-full bg-white rounded-[22px] p-8 flex flex-col justify-center">
+                <div class="w-full h-full bg-white dark:bg-slate-800 rounded-[22px] p-8 flex flex-col justify-center">
                 <div class="space-y-6">
                   <div class="flex items-center gap-4">
                     <div class="w-14 h-14 rounded-2xl gradient-bg flex items-center justify-center">
@@ -163,15 +197,15 @@
   </section>
 
   <!-- Stats -->
-  <section class="py-16 px-6 bg-[#1e293b]">
+  <section id="stats" class="py-16 px-6 bg-[#1e293b]">
     <div class="max-w-6xl mx-auto">
       <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
         <div data-aos="fade-up" data-aos-delay="0">
-          <p class="text-3xl md:text-4xl font-extrabold gradient-text mb-1">+50</p>
+          <p class="text-3xl md:text-4xl font-extrabold gradient-text mb-1"><span class="counter" data-target="50" data-prefix="+">0</span></p>
           <p class="text-slate-400 text-sm font-medium">Negócios impulsionados</p>
         </div>
         <div data-aos="fade-up" data-aos-delay="100">
-          <p class="text-3xl md:text-4xl font-extrabold text-white mb-1">100%</p>
+          <p class="text-3xl md:text-4xl font-extrabold text-white mb-1"><span class="counter" data-target="100" data-suffix="%">0</span></p>
           <p class="text-slate-400 text-sm font-medium">Foco em resultados</p>
         </div>
         <div data-aos="fade-up" data-aos-delay="200">
@@ -186,49 +220,132 @@
     </div>
   </section>
 
+  <!-- Quiz Diagnóstico Digital -->
+  <section id="quiz" class="py-24 px-6 bg-slate-50 dark:bg-slate-800/50">
+    <div class="max-w-2xl mx-auto">
+      <div class="text-center mb-12" data-aos="fade-up">
+        <span class="text-[#1e40af] font-semibold text-sm uppercase tracking-wider">Descubra</span>
+        <h2 class="text-3xl md:text-5xl font-extrabold text-[#1e293b] dark:text-white mt-2 mb-4">
+          O que o seu negócio precisa?
+        </h2>
+        <p class="text-[#334155] dark:text-slate-400 text-lg">
+          Responda a 5 perguntas rápidas e receba uma recomendação personalizada.
+        </p>
+      </div>
+      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-xl border border-slate-100 dark:border-slate-700 p-8 md:p-10" data-aos="fade-up">
+        <div class="mb-6">
+          <div class="flex justify-between text-sm text-[#334155] dark:text-slate-400 mb-2">
+            <span>Progresso</span>
+            <span id="quiz-progress">1/5</span>
+          </div>
+          <div class="h-2 bg-slate-200 dark:bg-slate-700 rounded-full overflow-hidden">
+            <div id="quiz-bar" class="h-full gradient-bg rounded-full transition-all duration-300" style="width: 20%"></div>
+          </div>
+        </div>
+        <div id="quiz-container">
+          <div id="quiz-steps">
+            <div class="quiz-step" data-step="0">
+              <p class="text-lg font-semibold text-[#1e293b] dark:text-white mb-4">O seu negócio tem website?</p>
+              <div class="space-y-3">
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="0">Não tenho website</button>
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="1">Tenho mas está desatualizado</button>
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="2">Sim, está atualizado</button>
+              </div>
+            </div>
+            <div class="quiz-step hidden" data-step="1">
+              <p class="text-lg font-semibold text-[#1e293b] dark:text-white mb-4">Publica regularmente nas redes sociais?</p>
+              <div class="space-y-3">
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="0">Raramente ou nunca</button>
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="1">Às vezes</button>
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="2">Sim, com regularidade</button>
+              </div>
+            </div>
+            <div class="quiz-step hidden" data-step="2">
+              <p class="text-lg font-semibold text-[#1e293b] dark:text-white mb-4">O seu negócio aparece no Google quando alguém pesquisa?</p>
+              <div class="space-y-3">
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="0">Não sei / Não</button>
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="1">Aparece mas não nos primeiros</button>
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="2">Sim, nas primeiras posições</button>
+              </div>
+            </div>
+            <div class="quiz-step hidden" data-step="3">
+              <p class="text-lg font-semibold text-[#1e293b] dark:text-white mb-4">Quantos clientes novos gostaria de ter por mês?</p>
+              <div class="space-y-3">
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="0">Mais alguns (5-10)</button>
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="1">Bastantes mais (10-30)</button>
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="2">Crescimento significativo (30+)</button>
+              </div>
+            </div>
+            <div class="quiz-step hidden" data-step="4">
+              <p class="text-lg font-semibold text-[#1e293b] dark:text-white mb-4">Tem tempo para gerir a presença online sozinho?</p>
+              <div class="space-y-3">
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="0">Não tenho tempo</button>
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="1">Tenho algum</button>
+                <button type="button" class="quiz-option w-full text-left px-5 py-4 rounded-xl border-2 border-slate-200 dark:border-slate-600 hover:border-[#3b82f6] dark:hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-all text-[#334155] dark:text-slate-300" data-value="2">Sim, consigo gerir</button>
+              </div>
+            </div>
+          </div>
+          <div id="quiz-result" class="hidden text-center py-6">
+            <div class="w-20 h-20 rounded-full gradient-bg flex items-center justify-center mx-auto mb-6">
+              <i data-lucide="sparkles" class="w-10 h-10 text-white"></i>
+            </div>
+            <h3 class="text-2xl font-bold text-[#1e293b] dark:text-white mb-2">A nossa recomendação</h3>
+            <p id="quiz-recommendation" class="text-lg text-[#334155] dark:text-slate-400 mb-6"></p>
+            <a id="quiz-cta" href="#contacto" class="inline-flex items-center gap-2 gradient-bg text-white font-semibold px-8 py-4 rounded-xl hover:opacity-95 transition-opacity">
+              Falar Connosco <i data-lucide="arrow-right" class="w-5 h-5"></i>
+            </a>
+            <button type="button" id="quiz-restart" class="block mx-auto mt-4 text-sm text-[#334155] dark:text-slate-400 hover:text-[#1e40af] dark:hover:text-blue-400 transition-colors">
+              Refazer o quiz
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Problemas que Resolvemos -->
-  <section id="problemas" class="py-24 px-6 mesh-bg">
+  <section id="problemas" class="py-24 px-6 mesh-bg dark:bg-slate-900">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-16" data-aos="fade-up">
         <span class="text-[#1e40af] font-semibold text-sm uppercase tracking-wider">O que fazemos</span>
-        <h2 class="text-3xl md:text-5xl font-extrabold text-[#1e293b] mt-2 mb-4">
+        <h2 class="text-3xl md:text-5xl font-extrabold text-[#1e293b] dark:text-white mt-2 mb-4">
           Problemas que Resolvemos
         </h2>
-        <p class="text-[#334155] text-lg max-w-2xl mx-auto">
+        <p class="text-[#334155] dark:text-slate-400 text-lg max-w-2xl mx-auto">
           Identificamos os bloqueios que impedem o seu negócio de crescer online e resolvemo-los com soluções à medida.
         </p>
       </div>
       <div class="grid md:grid-cols-3 gap-8">
-        <div class="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100 card-hover" data-aos="fade-up" data-aos-delay="100">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 card-hover" data-aos="fade-up" data-aos-delay="100">
           <div class="w-16 h-16 rounded-2xl gradient-bg flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30">
             <i data-lucide="globe" class="w-8 h-8 text-white"></i>
           </div>
-          <h3 class="text-xl font-bold text-[#1e293b] mb-3">Sites Lentos ou Inexistentes</h3>
-          <p class="text-[#334155] leading-relaxed mb-6">
+          <h3 class="text-xl font-bold text-[#1e293b] dark:text-white mb-3">Sites Lentos ou Inexistentes</h3>
+          <p class="text-[#334155] dark:text-slate-400 leading-relaxed mb-6">
             Criamos websites profissionais, rápidos e otimizados para conversão e SEO. O seu negócio merece uma vitrine digital à altura.
           </p>
           <a href="#contacto" class="inline-flex items-center gap-2 text-[#1e40af] font-semibold hover:gap-3 transition-all">
             Saber mais <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
         </div>
-        <div class="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100 card-hover" data-aos="fade-up" data-aos-delay="200">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 card-hover" data-aos="fade-up" data-aos-delay="200">
           <div class="w-16 h-16 rounded-2xl gradient-bg flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30">
             <i data-lucide="share-2" class="w-8 h-8 text-white"></i>
           </div>
-          <h3 class="text-xl font-bold text-[#1e293b] mb-3">Redes Sociais Abandonadas</h3>
-          <p class="text-[#334155] leading-relaxed mb-6">
+          <h3 class="text-xl font-bold text-[#1e293b] dark:text-white mb-3">Redes Sociais Abandonadas</h3>
+          <p class="text-[#334155] dark:text-slate-400 leading-relaxed mb-6">
             Gestão ativa e criação de conteúdo regular. Mantemos a sua presença online viva e a atrair clientes.
           </p>
           <a href="#contacto" class="inline-flex items-center gap-2 text-[#1e40af] font-semibold hover:gap-3 transition-all">
             Saber mais <i data-lucide="arrow-right" class="w-4 h-4"></i>
           </a>
         </div>
-        <div class="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-100 card-hover" data-aos="fade-up" data-aos-delay="300">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700 card-hover" data-aos="fade-up" data-aos-delay="300">
           <div class="w-16 h-16 rounded-2xl gradient-bg flex items-center justify-center mb-6 shadow-lg shadow-blue-500/30">
             <i data-lucide="users" class="w-8 h-8 text-white"></i>
           </div>
-          <h3 class="text-xl font-bold text-[#1e293b] mb-3">Falta de Clientes Online</h3>
-          <p class="text-[#334155] leading-relaxed mb-6">
+          <h3 class="text-xl font-bold text-[#1e293b] dark:text-white mb-3">Falta de Clientes Online</h3>
+          <p class="text-[#334155] dark:text-slate-400 leading-relaxed mb-6">
             Estratégias de captação e conversão para trazer mais clientes ao seu negócio. Crescimento sustentado e mensurável.
           </p>
           <a href="#contacto" class="inline-flex items-center gap-2 text-[#1e40af] font-semibold hover:gap-3 transition-all">
@@ -239,55 +356,166 @@
     </div>
   </section>
 
+  <!-- Testemunhos -->
+  <section id="testemunhos" class="py-24 px-6 bg-white dark:bg-slate-900">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <span class="text-[#1e40af] font-semibold text-sm uppercase tracking-wider">O que dizem</span>
+        <h2 class="text-3xl md:text-5xl font-extrabold text-[#1e293b] dark:text-white mt-2 mb-4">
+          Testemunhos
+        </h2>
+        <p class="text-[#334155] dark:text-slate-400 text-lg max-w-2xl mx-auto">
+          Negócios que confiam na Impuls∞ps para crescer online.
+        </p>
+      </div>
+      <div class="relative overflow-hidden">
+        <div id="testimonials-track" class="testimonials-track">
+          <div class="testimonial-card px-4">
+            <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 border border-slate-100 dark:border-slate-700 h-full">
+              <p class="text-[#334155] dark:text-slate-400 leading-relaxed mb-6">"Falei com o Emanuel e ele percebeu logo o que eu queria. O processo foi simples e o site ficou como queria. Aparecemos no Google e já tive alguns clientes a ligar por isso."</p>
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-[#1e40af]/10 flex items-center justify-center">
+                  <span class="text-[#1e40af] font-bold text-lg">M</span>
+                </div>
+                <div>
+                  <p class="font-semibold text-[#1e293b] dark:text-white">Maria S.</p>
+                  <p class="text-sm text-[#334155] dark:text-slate-400">Restaurante O Tasco</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card px-4">
+            <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 border border-slate-100 dark:border-slate-700 h-full">
+              <p class="text-[#334155] dark:text-slate-400 leading-relaxed mb-6">"Precisava de apoio na gestão das redes sociais e a equipa foi desde o início prestável. A comunicação foi fluida e o processo decorreu bem. Em poucos meses, nota-se uma evolução no número de contactos."</p>
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-[#1e40af]/10 flex items-center justify-center">
+                  <span class="text-[#1e40af] font-bold text-lg">J</span>
+                </div>
+                <div>
+                  <p class="font-semibold text-[#1e293b] dark:text-white">João P.</p>
+                  <p class="text-sm text-[#334155] dark:text-slate-400">Clínica Dentária</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card px-4">
+            <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 border border-slate-100 dark:border-slate-700 h-full">
+              <p class="text-[#334155] dark:text-slate-400 leading-relaxed mb-6">"Não percebo nada de redes sociais e tinha muitas dúvidas. A equipa respondeu a tudo com paciência. Eles publicam e eu só mando as fotos. Fácil de acompanhar."</p>
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-[#1e40af]/10 flex items-center justify-center">
+                  <span class="text-[#1e40af] font-bold text-lg">A</span>
+                </div>
+                <div>
+                  <p class="font-semibold text-[#1e293b] dark:text-white">Ana L.</p>
+                  <p class="text-sm text-[#334155] dark:text-slate-400">Boutique Moda</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card px-4">
+            <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 border border-slate-100 dark:border-slate-700 h-full">
+              <p class="text-[#334155] dark:text-slate-400 leading-relaxed mb-6">"O site estava desatualizado há anos. Falei com a equipa, perceberam o que precisava e em pouco tempo ficou pronto. Responderam sempre rápido quando precisei de algo."</p>
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-[#1e40af]/10 flex items-center justify-center">
+                  <span class="text-[#1e40af] font-bold text-lg">P</span>
+                </div>
+                <div>
+                  <p class="font-semibold text-[#1e293b] dark:text-white">Pedro M.</p>
+                  <p class="text-sm text-[#334155] dark:text-slate-400">Oficina Mecânica</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card px-4">
+            <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 border border-slate-100 dark:border-slate-700 h-full">
+              <p class="text-[#334155] dark:text-slate-400 leading-relaxed mb-6">"Fui com receio de não perceber nada de websites. A equipa explicou tudo de forma simples e não me pressionou. Ficámos com um site que mostro aos clientes com orgulho."</p>
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-[#1e40af]/10 flex items-center justify-center">
+                  <span class="text-[#1e40af] font-bold text-lg">S</span>
+                </div>
+                <div>
+                  <p class="font-semibold text-[#1e293b] dark:text-white">Sofia R.</p>
+                  <p class="text-sm text-[#334155] dark:text-slate-400">Estúdio de Fotografia</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="testimonial-card px-4">
+            <div class="bg-slate-50 dark:bg-slate-800 rounded-2xl p-8 border border-slate-100 dark:border-slate-700 h-full">
+              <p class="text-[#334155] dark:text-slate-400 leading-relaxed mb-6">"A Impuls∞ps tratou da criação do site e da gestão das redes sociais. O atendimento foi profissional e a comunicação foi sempre clara. O processo decorreu conforme o combinado."</p>
+              <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-full bg-[#1e40af]/10 flex items-center justify-center">
+                  <span class="text-[#1e40af] font-bold text-lg">R</span>
+                </div>
+                <div>
+                  <p class="font-semibold text-[#1e293b] dark:text-white">Ricardo T.</p>
+                  <p class="text-sm text-[#334155] dark:text-slate-400">Escritório de Advocacia</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-center gap-2 mt-8">
+          <button type="button" id="testimonial-prev" class="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-600 flex items-center justify-center text-[#334155] dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-[#1e40af]/30 transition-colors" aria-label="Anterior">
+          <i data-lucide="chevron-left" class="w-5 h-5"></i>
+          </button>
+          <button type="button" id="testimonial-next" class="w-10 h-10 rounded-full border border-slate-200 dark:border-slate-600 flex items-center justify-center text-[#334155] dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:border-[#1e40af]/30 transition-colors" aria-label="Seguinte">
+            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Preços -->
-  <section id="precos" class="py-24 px-6 bg-slate-50">
+  <section id="precos" class="py-24 px-6 bg-slate-50 dark:bg-slate-800/50">
     <div class="max-w-6xl mx-auto">
       <div class="text-center mb-16" data-aos="fade-up">
         <span class="text-[#1e40af] font-semibold text-sm uppercase tracking-wider">Investimento</span>
-        <h2 class="text-3xl md:text-5xl font-extrabold text-[#1e293b] mt-2 mb-4">
+        <h2 class="text-3xl md:text-5xl font-extrabold text-[#1e293b] dark:text-white mt-2 mb-4">
           Packs Disponíveis
         </h2>
-        <p class="text-[#334155] text-lg max-w-2xl mx-auto">
+        <p class="text-[#334155] dark:text-slate-400 text-lg max-w-2xl mx-auto">
           Escolha o pack que melhor se adapta à fase do seu negócio. Sem surpresas, com resultados claros.
         </p>
       </div>
       <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-        <div class="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/50 border border-slate-200 card-hover" data-aos="fade-up" data-aos-delay="100">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-200 dark:border-slate-700 card-hover" data-aos="fade-up" data-aos-delay="100">
           <div class="flex items-center gap-4 mb-6">
             <div class="w-14 h-14 rounded-2xl bg-[#1e293b] flex items-center justify-center">
               <i data-lucide="rocket" class="w-7 h-7 text-white"></i>
             </div>
             <div>
-              <h3 class="text-2xl font-bold text-[#1e293b]">Pack Arranque</h3>
-              <p class="text-[#334155] text-sm">Ideal para começar</p>
+              <h3 class="text-2xl font-bold text-[#1e293b] dark:text-white">Pack Arranque</h3>
+              <p class="text-[#334155] dark:text-slate-400 text-sm">Ideal para começar</p>
             </div>
           </div>
           <ul class="space-y-4 text-[#334155] mb-8">
-            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Website Profissional</li>
-            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Setup Google Maps</li>
-            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Design responsivo</li>
-            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Otimização SEO básica</li>
+            <li class="flex items-center gap-3 text-[#334155] dark:text-slate-400"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Website Profissional</li>
+            <li class="flex items-center gap-3 text-[#334155] dark:text-slate-400"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Setup Google Maps</li>
+            <li class="flex items-center gap-3 text-[#334155] dark:text-slate-400"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Design responsivo</li>
+            <li class="flex items-center gap-3 text-[#334155] dark:text-slate-400"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Otimização SEO básica</li>
           </ul>
           <a href="#contacto" class="block w-full text-center bg-[#1e293b] hover:bg-[#334155] text-white font-semibold py-4 rounded-xl transition-colors">
             Pedir Orçamento
           </a>
         </div>
-        <div class="bg-white rounded-3xl p-8 shadow-2xl shadow-blue-500/20 border-2 border-[#3b82f6] relative card-hover" data-aos="fade-up" data-aos-delay="200">
+        <div class="bg-white dark:bg-slate-800 rounded-3xl p-8 shadow-2xl shadow-blue-500/20 dark:shadow-none border-2 border-[#3b82f6] relative card-hover" data-aos="fade-up" data-aos-delay="200">
           <span class="absolute -top-4 left-1/2 -translate-x-1/2 gradient-bg text-white text-xs font-bold px-4 py-1.5 rounded-full shadow-lg">Recomendado</span>
           <div class="flex items-center gap-4 mb-6 mt-2">
             <div class="w-14 h-14 rounded-2xl gradient-bg flex items-center justify-center shadow-lg shadow-blue-500/30">
               <i data-lucide="infinity" class="w-7 h-7 text-white"></i>
             </div>
             <div>
-              <h3 class="text-2xl font-bold text-[#1e293b]">Pack Infinito</h3>
-              <p class="text-[#334155] text-sm">Mensal · Crescimento contínuo</p>
+              <h3 class="text-2xl font-bold text-[#1e293b] dark:text-white">Pack Infinito</h3>
+              <p class="text-[#334155] dark:text-slate-400 text-sm">Mensal · Crescimento contínuo</p>
             </div>
           </div>
           <ul class="space-y-4 text-[#334155] mb-8">
-            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Tudo do Pack Arranque</li>
-            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Gestão de Conteúdos profissional</li>
-            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Atualizações constantes</li>
-            <li class="flex items-center gap-3"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Suporte prioritário</li>
+            <li class="flex items-center gap-3 text-[#334155] dark:text-slate-400"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Tudo do Pack Arranque</li>
+            <li class="flex items-center gap-3 text-[#334155] dark:text-slate-400"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Gestão de Conteúdos profissional</li>
+            <li class="flex items-center gap-3 text-[#334155] dark:text-slate-400"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Atualizações constantes</li>
+            <li class="flex items-center gap-3 text-[#334155] dark:text-slate-400"><div class="w-6 h-6 rounded-full gradient-bg flex items-center justify-center flex-shrink-0"><i data-lucide="check" class="w-3.5 h-3.5 text-white"></i></div> Suporte prioritário</li>
           </ul>
           <a href="#contacto" class="block w-full text-center gradient-bg text-white font-semibold py-4 rounded-xl hover:opacity-95 transition-opacity shadow-lg shadow-blue-500/30">
             Quero Impulsionar
@@ -297,53 +525,162 @@
     </div>
   </section>
 
+  <!-- FAQ -->
+  <section id="faq" class="py-24 px-6 bg-slate-50 dark:bg-slate-800/50">
+    <div class="max-w-3xl mx-auto">
+      <div class="text-center mb-16" data-aos="fade-up">
+        <span class="text-[#1e40af] font-semibold text-sm uppercase tracking-wider">Dúvidas</span>
+        <h2 class="text-3xl md:text-5xl font-extrabold text-[#1e293b] dark:text-white mt-2 mb-4">
+          Perguntas Frequentes
+        </h2>
+        <p class="text-[#334155] dark:text-slate-400 text-lg">
+          Respostas às questões mais comuns sobre os nossos serviços.
+        </p>
+      </div>
+      <div class="space-y-3" data-aos="fade-up">
+        <div class="faq-item bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+          <button type="button" class="faq-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+            <span class="font-semibold text-[#1e293b] dark:text-white">Quanto tempo demora a criar um website?</span>
+            <i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-[#334155] dark:text-slate-400 flex-shrink-0 ml-4 transition-transform"></i>
+          </button>
+          <div class="faq-content">
+            <div class="px-6 pb-5 text-[#334155] dark:text-slate-400">
+              Depende da complexidade do projeto. Um site institucional simples pode ficar pronto em 2-3 semanas. Sites com mais funcionalidades ou lojas online podem levar 4-8 semanas. Após o primeiro contacto, apresentamos um cronograma detalhado.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+          <button type="button" class="faq-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+            <span class="font-semibold text-[#1e293b] dark:text-white">Preciso de fornecer conteúdo (textos, fotos)?</span>
+            <i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-[#334155] dark:text-slate-400 flex-shrink-0 ml-4 transition-transform"></i>
+          </button>
+          <div class="faq-content">
+            <div class="px-6 pb-5 text-[#334155] dark:text-slate-400">
+              Sim. Para um resultado de qualidade, precisamos de textos sobre o seu negócio, logótipo e fotos. Se não tiver, podemos ajudar com redação e sugerir bancos de imagens. No Pack Infinito, a gestão de conteúdos inclui apoio na criação.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+          <button type="button" class="faq-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+            <span class="font-semibold text-[#1e293b] dark:text-white">O que está incluído no Pack Infinito?</span>
+            <i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-[#334155] dark:text-slate-400 flex-shrink-0 ml-4 transition-transform"></i>
+          </button>
+          <div class="faq-content">
+            <div class="px-6 pb-5 text-[#334155] dark:text-slate-400">
+              Tudo o que o Pack Arranque oferece (website, Google Maps, SEO básico) mais gestão profissional de conteúdos nas redes sociais, atualizações regulares do site e suporte prioritário. É ideal para quem quer crescer online sem ter de gerir tudo sozinho.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+          <button type="button" class="faq-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+            <span class="font-semibold text-[#1e293b] dark:text-white">Posso cancelar quando quiser?</span>
+            <i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-[#334155] dark:text-slate-400 flex-shrink-0 ml-4 transition-transform"></i>
+          </button>
+          <div class="faq-content">
+            <div class="px-6 pb-5 text-[#334155] dark:text-slate-400">
+              Sim. Os serviços mensais (como o Pack Infinito) podem ser cancelados com aviso prévio. O website criado continua a ser seu. Transparentes desde o início: explicamos tudo antes de avançar.
+            </div>
+          </div>
+        </div>
+        <div class="faq-item bg-white dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 overflow-hidden">
+          <button type="button" class="faq-trigger w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 dark:hover:bg-slate-700/50 transition-colors">
+            <span class="font-semibold text-[#1e293b] dark:text-white">Trabalham com negócios de que área?</span>
+            <i data-lucide="chevron-down" class="faq-chevron w-5 h-5 text-[#334155] dark:text-slate-400 flex-shrink-0 ml-4 transition-transform"></i>
+          </button>
+          <div class="faq-content">
+            <div class="px-6 pb-5 text-[#334155] dark:text-slate-400">
+              Restaurantes, clínicas, oficinas, boutiques, escritórios, estúdios e muitos outros. Cada negócio é único e adaptamos a estratégia. O importante é ter vontade de crescer online.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Contacto -->
-  <section id="contacto" class="py-24 px-6 mesh-bg">
+  <section id="contacto" class="py-24 px-6 mesh-bg dark:bg-slate-900">
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-12" data-aos="fade-up">
         <span class="text-[#1e40af] font-semibold text-sm uppercase tracking-wider">Vamos conversar</span>
-        <h2 class="text-3xl md:text-5xl font-extrabold text-[#1e293b] mt-2 mb-4">
+        <h2 class="text-3xl md:text-5xl font-extrabold text-[#1e293b] dark:text-white mt-2 mb-4">
           Fale Connosco
         </h2>
-        <p class="text-[#334155] text-lg">
+        <p class="text-[#334155] dark:text-slate-400 text-lg">
           Preencha o formulário e responderemos em breve. Sem compromisso.
         </p>
       </div>
-      <div class="bg-white rounded-3xl shadow-2xl shadow-slate-200/80 border border-slate-100 p-8 md:p-12" data-aos="fade-up">
-        <div id="form-success" class="hidden mb-6 p-4 rounded-xl bg-green-50 border border-green-200 text-green-800 text-center">
+      <div class="bg-white dark:bg-slate-800 rounded-3xl shadow-2xl shadow-slate-200/80 dark:shadow-none border border-slate-100 dark:border-slate-700 p-8 md:p-12" data-aos="fade-up">
+        <div id="form-success" class="hidden mb-6 p-4 rounded-xl bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-800 dark:text-green-300 text-center" role="alert">
           <p class="font-semibold">Mensagem enviada com sucesso!</p>
           <p class="text-sm mt-1">Responderemos em breve.</p>
         </div>
-        <form id="contact-form" action="https://formspree.io/f/mdalwwpj" method="POST" class="space-y-6">
+        <div id="form-error" class="hidden mb-6 p-4 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-800 dark:text-red-300 text-center" role="alert">
+          <p class="font-semibold">Ocorreu um erro ao enviar a mensagem.</p>
+          <p class="text-sm mt-1">Por favor, tente novamente ou contacte-nos via WhatsApp.</p>
+        </div>
+        <form id="contact-form" action="https://formspree.io/f/mdalwwpj" method="POST" class="space-y-6 relative" novalidate>
           <input type="hidden" name="_subject" value="Novo contacto - Impuls∞ps">
+          <!-- Honeypot anti-spam (deve ficar vazio) -->
+          <div class="absolute -left-[9999px] opacity-0" aria-hidden="true">
+            <label for="website">Website</label>
+            <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+          </div>
           <div class="grid md:grid-cols-2 gap-6">
             <div>
-              <label for="name" class="block text-sm font-semibold text-[#1e293b] mb-2">Nome</label>
-              <input type="text" id="name" name="name" required
-                class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[#1e293b] placeholder-slate-400 focus:outline-none input-focus border-[#3b82f6]/30 focus:border-[#3b82f6] transition-all"
-                placeholder="O seu nome">
+              <label for="name" class="block text-sm font-semibold text-[#1e293b] dark:text-white mb-2">Nome</label>
+              <input type="text" id="name" name="name" required autocomplete="name"
+                class="form-input w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-[#1e293b] dark:text-white placeholder-slate-400 focus:outline-none input-focus border-[#3b82f6]/30 focus:border-[#3b82f6] transition-all"
+                placeholder="O seu nome" aria-describedby="name-error" aria-invalid="false">
+              <p id="name-error" class="hidden mt-1.5 text-sm text-red-600 dark:text-red-400" role="alert"></p>
             </div>
             <div>
-              <label for="email" class="block text-sm font-semibold text-[#1e293b] mb-2">Email</label>
-              <input type="email" id="email" name="email" required
-                class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[#1e293b] placeholder-slate-400 focus:outline-none input-focus border-[#3b82f6]/30 focus:border-[#3b82f6] transition-all"
-                placeholder="o@seuemail.com">
+              <label for="email" class="block text-sm font-semibold text-[#1e293b] dark:text-white mb-2">Email</label>
+              <input type="email" id="email" name="email" required autocomplete="email"
+                class="form-input w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-[#1e293b] dark:text-white placeholder-slate-400 focus:outline-none input-focus border-[#3b82f6]/30 focus:border-[#3b82f6] transition-all"
+                placeholder="o@seuemail.com" aria-describedby="email-error" aria-invalid="false">
+              <p id="email-error" class="hidden mt-1.5 text-sm text-red-600 dark:text-red-400" role="alert"></p>
             </div>
           </div>
           <div>
-            <label for="phone" class="block text-sm font-semibold text-[#1e293b] mb-2">Telefone</label>
-            <input type="tel" id="phone" name="phone"
-              class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[#1e293b] placeholder-slate-400 focus:outline-none input-focus border-[#3b82f6]/30 focus:border-[#3b82f6] transition-all"
-              placeholder="+351 912 345 678">
+            <label for="interest" class="block text-sm font-semibold text-[#1e293b] dark:text-white mb-2">Qual o seu interesse?</label>
+            <select id="interest" name="interest"
+              class="form-input w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-[#1e293b] dark:text-white focus:outline-none input-focus border-[#3b82f6]/30 focus:border-[#3b82f6] transition-all"
+              aria-describedby="interest-error">
+              <option value="">Selecione uma opção</option>
+              <option value="Pack Arranque">Pack Arranque</option>
+              <option value="Pack Infinito">Pack Infinito</option>
+              <option value="Outro">Outro</option>
+            </select>
+            <p id="interest-error" class="hidden mt-1.5 text-sm text-red-600 dark:text-red-400" role="alert"></p>
           </div>
           <div>
-            <label for="message" class="block text-sm font-semibold text-[#1e293b] mb-2">Mensagem</label>
-            <textarea id="message" name="message" rows="5" required
-              class="w-full px-4 py-3.5 bg-slate-50 border border-slate-200 rounded-xl text-[#1e293b] placeholder-slate-400 focus:outline-none input-focus border-[#3b82f6]/30 focus:border-[#3b82f6] transition-all resize-none"
-              placeholder="Conte-nos sobre o seu negócio e o que precisa..."></textarea>
+            <label for="phone" class="block text-sm font-semibold text-[#1e293b] dark:text-white mb-2">Telefone</label>
+            <input type="tel" id="phone" name="phone" autocomplete="tel"
+              class="form-input w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-[#1e293b] dark:text-white placeholder-slate-400 focus:outline-none input-focus border-[#3b82f6]/30 focus:border-[#3b82f6] transition-all"
+              placeholder="+351 912 345 678" aria-describedby="phone-error" aria-invalid="false">
+            <p id="phone-error" class="hidden mt-1.5 text-sm text-red-600 dark:text-red-400" role="alert"></p>
+          </div>
+          <div>
+            <label for="message" class="block text-sm font-semibold text-[#1e293b] dark:text-white mb-2">Mensagem</label>
+            <textarea id="message" name="message" rows="5" required minlength="20"
+              class="form-input w-full px-4 py-3.5 bg-slate-50 dark:bg-slate-700 border border-slate-200 dark:border-slate-600 rounded-xl text-[#1e293b] dark:text-white placeholder-slate-400 focus:outline-none input-focus border-[#3b82f6]/30 focus:border-[#3b82f6] transition-all resize-none"
+              placeholder="Conte-nos sobre o seu negócio e o que precisa... (mín. 20 caracteres)" aria-describedby="message-error" aria-invalid="false"></textarea>
+            <p id="message-error" class="hidden mt-1.5 text-sm text-red-600 dark:text-red-400" role="alert"></p>
+          </div>
+          <div>
+            <label class="flex items-start gap-3 cursor-pointer">
+              <input type="checkbox" id="privacy" name="privacy" required
+                class="mt-1 w-4 h-4 rounded border-slate-300 text-[#1e40af] focus:ring-[#3b82f6]"
+                aria-describedby="privacy-error" aria-invalid="false">
+              <span class="text-sm text-[#334155] dark:text-slate-400">
+                Aceito que os meus dados sejam tratados para responder ao meu contacto, em conformidade com a <a href="privacidade.html" class="text-[#1e40af] dark:text-blue-400 underline hover:no-underline">política de privacidade</a>.
+              </span>
+            </label>
+            <p id="privacy-error" class="hidden mt-1.5 text-sm text-red-600 dark:text-red-400" role="alert"></p>
           </div>
           <button type="submit" id="submit-btn"
-            class="w-full gradient-bg text-white font-semibold py-4 rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-xl shadow-blue-500/30 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+            class="w-full gradient-bg text-white font-semibold py-4 rounded-xl transition-all duration-300 hover:scale-[1.02] shadow-xl shadow-blue-500/30 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:scale-100"
+            aria-busy="false" aria-live="polite">
             <span class="btn-text">Enviar Mensagem</span>
             <i data-lucide="send" class="w-5 h-5 btn-icon"></i>
           </button>
@@ -359,10 +696,16 @@
       <div class="text-center">
         <p class="font-bold text-xl text-white mb-1">Impuls<span class="gradient-text">∞</span>ps</p>
         <p class="text-slate-400 text-sm">Soluções digitais para o seu negócio</p>
+        <a href="privacidade.html" class="inline-block mt-3 text-slate-400 hover:text-white text-sm transition-colors">Política de Privacidade</a>
       </div>
       <p class="text-center text-slate-500 text-sm mt-12">© 2025 Impuls∞ps. Todos os direitos reservados.</p>
     </div>
   </footer>
+
+  <!-- WhatsApp flutuante -->
+  <a href="https://wa.me/351939814155?text=Olá! Gostaria de saber mais sobre os vossos serviços." target="_blank" rel="noopener noreferrer" class="fixed bottom-6 right-6 z-50 w-14 h-14 rounded-full gradient-bg text-white flex items-center justify-center shadow-xl shadow-blue-500/30 hover:scale-110 transition-transform duration-300" aria-label="Contactar via WhatsApp">
+    <svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
 
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
@@ -387,32 +730,289 @@
         lucide.createIcons();
       });
     });
-    // Form submit com feedback
-    document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    // Form validation & submit
+    const contactForm = document.getElementById('contact-form');
+    const formSuccess = document.getElementById('form-success');
+    const formError = document.getElementById('form-error');
+    const submitBtn = document.getElementById('submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    function showFieldError(fieldId, errorId, message) {
+      const field = document.getElementById(fieldId);
+      const errEl = document.getElementById(errorId);
+      if (field && errEl) {
+        field.classList.add('input-error');
+        field.setAttribute('aria-invalid', 'true');
+        errEl.textContent = message;
+        errEl.classList.remove('hidden');
+      }
+    }
+    function clearFieldError(fieldId, errorId) {
+      const field = document.getElementById(fieldId);
+      const errEl = document.getElementById(errorId);
+      if (field && errEl) {
+        field.classList.remove('input-error');
+        field.setAttribute('aria-invalid', 'false');
+        errEl.classList.add('hidden');
+      }
+    }
+    function clearAllErrors() {
+      ['name','email','phone','message','privacy','interest'].forEach(id => {
+        const errId = id + '-error';
+        if (document.getElementById(errId)) clearFieldError(id, errId);
+      });
+      formSuccess.classList.add('hidden');
+      formError.classList.add('hidden');
+    }
+
+    function validateForm() {
+      clearAllErrors();
+      let valid = true;
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const privacy = document.getElementById('privacy').checked;
+
+      if (name.length < 2) {
+        showFieldError('name', 'name-error', 'Introduza o seu nome (mín. 2 caracteres).');
+        valid = false;
+      }
+      if (!emailRegex.test(email)) {
+        showFieldError('email', 'email-error', 'Introduza um email válido.');
+        valid = false;
+      }
+      if (phone) {
+        const digits = phone.replace(/\D/g, '');
+        if (digits.length < 9 || digits.length > 13) {
+          showFieldError('phone', 'phone-error', 'Introduza um número de telefone válido (9-13 dígitos).');
+          valid = false;
+        }
+      }
+      if (message.length < 20) {
+        showFieldError('message', 'message-error', 'A mensagem deve ter pelo menos 20 caracteres.');
+        valid = false;
+      }
+      if (!privacy) {
+        showFieldError('privacy', 'privacy-error', 'Deve aceitar a política de privacidade.');
+        valid = false;
+      }
+      return valid;
+    }
+
+    contactForm.querySelectorAll('.form-input').forEach(input => {
+      input.addEventListener('input', () => clearFieldError(input.id, input.id + '-error'));
+      input.addEventListener('blur', () => clearFieldError(input.id, input.id + '-error'));
+    });
+    document.getElementById('privacy')?.addEventListener('change', () => clearFieldError('privacy', 'privacy-error'));
+
+    contactForm.addEventListener('submit', async function(e) {
       e.preventDefault();
-      const btn = document.getElementById('submit-btn');
-      const btnText = btn.querySelector('.btn-text');
-      const form = this;
-      btn.disabled = true;
+      clearAllErrors();
+
+      if (document.getElementById('website').value) {
+        formSuccess.classList.remove('hidden');
+        this.reset();
+        formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+
+      if (!validateForm()) {
+        const firstError = this.querySelector('[aria-invalid="true"]');
+        if (firstError) firstError.focus();
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.setAttribute('aria-busy', 'true');
       btnText.textContent = 'A enviar...';
+
       try {
-        const res = await fetch(form.action, {
+        const fd = new FormData(this);
+        fd.delete('website');
+        const res = await fetch(this.action, {
           method: 'POST',
-          body: new FormData(form),
+          body: fd,
           headers: { 'Accept': 'application/json' }
         });
-        if (res.ok) {
-          document.getElementById('form-success').classList.remove('hidden');
-          form.reset();
-          document.getElementById('form-success').scrollIntoView({ behavior: 'smooth', block: 'center' });
+        const data = await res.json().catch(() => ({}));
+        if (res.ok && !data.error) {
+          formSuccess.classList.remove('hidden');
+          this.reset();
+          formSuccess.scrollIntoView({ behavior: 'smooth', block: 'center' });
         } else {
-          throw new Error('Erro ao enviar');
+          throw new Error(data.error || 'Erro ao enviar');
         }
       } catch (err) {
-        form.submit();
+        formError.classList.remove('hidden');
+        formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
-      btn.disabled = false;
+
+      submitBtn.disabled = false;
+      submitBtn.setAttribute('aria-busy', 'false');
       btnText.textContent = 'Enviar Mensagem';
+    });
+
+    // Scroll progress indicator
+    function updateScrollProgress() {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const percent = docHeight > 0 ? Math.min((scrollTop / docHeight) * 100, 100) : 0;
+      document.getElementById('scroll-progress').style.width = percent + '%';
+    }
+    window.addEventListener('scroll', () => requestAnimationFrame(updateScrollProgress));
+    updateScrollProgress();
+
+    // Animated counters
+    function animateCounter(el) {
+      const target = +el.dataset.target;
+      const prefix = el.dataset.prefix || '';
+      const suffix = el.dataset.suffix || '';
+      const duration = 1500;
+      const start = performance.now();
+      function step(now) {
+        const elapsed = now - start;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = Math.floor(eased * target);
+        el.textContent = prefix + value + suffix;
+        if (progress < 1) requestAnimationFrame(step);
+        else el.textContent = prefix + target + suffix;
+      }
+      requestAnimationFrame(step);
+    }
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          counterObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
+
+    // Hero parallax
+    const hero = document.getElementById('hero');
+    const parallaxLayers = document.querySelectorAll('.parallax-layer');
+    function updateParallax() {
+      if (!hero) return;
+      const rect = hero.getBoundingClientRect();
+      const heroHeight = hero.offsetHeight;
+      const inView = rect.top < window.innerHeight && rect.bottom > 0;
+      if (!inView) return;
+      const scrollProgress = -rect.top / (window.innerHeight + heroHeight);
+      parallaxLayers.forEach(layer => {
+        const speed = parseFloat(layer.dataset.speed) || 0.1;
+        const y = scrollProgress * heroHeight * speed;
+        const base = layer.classList.contains('-translate-x-1/2') ? 'translate(-50%, -50%) ' : '';
+        layer.style.transform = base + `translateY(${y}px)`;
+      });
+    }
+    window.addEventListener('scroll', () => requestAnimationFrame(updateParallax));
+    window.addEventListener('resize', updateParallax);
+    updateParallax();
+
+    // Testimonials carousel
+    const track = document.getElementById('testimonials-track');
+    const prevBtn = document.getElementById('testimonial-prev');
+    const nextBtn = document.getElementById('testimonial-next');
+    const carouselNav = prevBtn?.parentElement;
+    if (track && prevBtn && nextBtn) {
+      const cards = track.querySelectorAll('.testimonial-card');
+      const totalSlides = cards.length;
+      let currentIndex = 0;
+      function getSlideWidth() { return cards[0] ? cards[0].offsetWidth : 0; }
+      function getVisibleCount() {
+        const w = getSlideWidth();
+        return w > 0 ? Math.min(totalSlides, Math.floor(track.parentElement.offsetWidth / (w + 16))) : 1;
+      }
+      function updateCarousel() {
+        const offset = -currentIndex * getSlideWidth();
+        track.style.transform = `translateX(${offset}px)`;
+        const visible = getVisibleCount();
+        if (carouselNav) carouselNav.style.display = visible >= totalSlides ? 'none' : 'flex';
+      }
+      prevBtn.addEventListener('click', () => {
+        currentIndex = Math.max(0, currentIndex - 1);
+        updateCarousel();
+      });
+      nextBtn.addEventListener('click', () => {
+        currentIndex = Math.min(totalSlides - 1, currentIndex + 1);
+        updateCarousel();
+      });
+      window.addEventListener('resize', updateCarousel);
+      updateCarousel();
+    }
+
+    // Dark mode
+    function initDarkMode() {
+      const isDark = localStorage.getItem('darkMode') === 'true' || (!localStorage.getItem('darkMode') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      if (isDark) document.documentElement.classList.add('dark');
+      else document.documentElement.classList.remove('dark');
+    }
+    function toggleDarkMode() {
+      document.documentElement.classList.toggle('dark');
+      localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+      lucide.createIcons();
+    }
+    initDarkMode();
+    document.getElementById('dark-toggle')?.addEventListener('click', toggleDarkMode);
+    document.getElementById('dark-toggle-mobile')?.addEventListener('click', toggleDarkMode);
+
+    // Quiz
+    const quizSteps = document.querySelectorAll('.quiz-step');
+    const quizOptions = document.querySelectorAll('.quiz-option');
+    const quizResult = document.getElementById('quiz-result');
+    const quizStepsContainer = document.getElementById('quiz-steps');
+    const quizProgress = document.getElementById('quiz-progress');
+    const quizBar = document.getElementById('quiz-bar');
+    const quizRecommendation = document.getElementById('quiz-recommendation');
+    const quizCta = document.getElementById('quiz-cta');
+    let quizCurrentStep = 0;
+    let quizScores = [];
+    const quizRecommendations = {
+      arranque: { pack: 'Pack Arranque', text: 'O seu negócio beneficiará de um ponto de partida sólido: um website profissional, presença no Google Maps e bases de SEO. Ideal para começar a construir a sua presença online.', href: '#precos' },
+      infinito: { pack: 'Pack Infinito', text: 'Para o seu perfil, recomendamos o Pack Infinito: website + gestão contínua de conteúdos e redes sociais. Crescimento sustentado com uma equipa a trabalhar por si.', href: '#contacto' }
+    };
+    quizOptions.forEach(btn => {
+      btn.addEventListener('click', function() {
+        quizScores.push(+this.dataset.value);
+        quizCurrentStep++;
+        if (quizCurrentStep < quizSteps.length) {
+          quizSteps.forEach((s, i) => s.classList.toggle('hidden', i !== quizCurrentStep));
+          quizProgress.textContent = (quizCurrentStep + 1) + '/5';
+          quizBar.style.width = ((quizCurrentStep + 1) / 5 * 100) + '%';
+        } else {
+          const total = quizScores.reduce((a, b) => a + b, 0);
+          const rec = total >= 7 ? quizRecommendations.infinito : quizRecommendations.arranque;
+          quizStepsContainer.classList.add('hidden');
+          quizRecommendation.innerHTML = `<strong class="text-[#1e40af] dark:text-blue-400">${rec.pack}</strong><br>${rec.text}`;
+          quizCta.href = rec.href;
+          quizResult.classList.remove('hidden');
+          lucide.createIcons();
+        }
+      });
+    });
+    document.getElementById('quiz-restart')?.addEventListener('click', function() {
+      quizCurrentStep = 0;
+      quizScores = [];
+      quizResult.classList.add('hidden');
+      quizStepsContainer.classList.remove('hidden');
+      quizSteps.forEach((s, i) => s.classList.toggle('hidden', i !== 0));
+      quizProgress.textContent = '1/5';
+      quizBar.style.width = '20%';
+    });
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-trigger').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const item = this.closest('.faq-item');
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+      });
     });
   </script>
 </body>
