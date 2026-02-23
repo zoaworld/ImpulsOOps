@@ -1,0 +1,24 @@
+{
+  "name": "Impuls∞ps – Soluções Digitais",
+  "short_name": "Impuls∞ps",
+  "description": "Damos o impulso que o seu negócio precisa. Websites, gestão de redes sociais e presença online.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1e40af",
+  "lang": "pt",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/og-image.jpg",
+      "sizes": "1200x630",
+      "type": "image/jpeg",
+      "purpose": "any"
+    }
+  ]
+}
